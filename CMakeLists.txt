@@ -1,9 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
-# When using CMake 3.4 and later, don't export symbols from executables unless
-# the CMAKE_ENABLE_EXPORTS variable is set.
-if(POLICY CMP0065)
-  cmake_policy(SET CMP0065 NEW)
-endif()
+cmake_minimum_required(VERSION 3.5)
+# Don't export symbols from executables unless the CMAKE_ENABLE_EXPORTS
+# variable is set.
+cmake_policy(SET CMP0065 NEW)
 
 if(CMAKE_EXECUTABLE_SUFFIX)
   set(CMAKE_EXECUTABLE_SUFFIX_TMP ${CMAKE_EXECUTABLE_SUFFIX})
@@ -190,13 +188,13 @@ macro(boolean_number var)
   endif()
 endmacro()
 
-option(ENABLE_SHARED "Build shared libraries" TRUE)
+option(ENABLE_SHARED "Build shared libraries" FALSE)
 boolean_number(ENABLE_SHARED)
 option(ENABLE_STATIC "Build static libraries" TRUE)
 boolean_number(ENABLE_STATIC)
 option(REQUIRE_SIMD "Generate a fatal error if SIMD extensions are not available for this platform (default is to fall back to a non-SIMD build)" FALSE)
 boolean_number(REQUIRE_SIMD)
-option(PNG_SUPPORTED "Enable PNG support (requires libpng)" TRUE)
+option(PNG_SUPPORTED "Enable PNG support (requires libpng)" FALSE)
 boolean_number(PNG_SUPPORTED)
 option(WITH_12BIT "Encode/decode JPEG images with 12-bit samples (implies WITH_ARITH_DEC=0 WITH_ARITH_ENC=0 WITH_JAVA=0 WITH_SIMD=0 WITH_TURBOJPEG=0 )" FALSE)
 boolean_number(WITH_12BIT)
@@ -218,7 +216,7 @@ option(WITH_MEM_SRCDST "Include in-memory source/destination manager functions w
 boolean_number(WITH_MEM_SRCDST)
 option(WITH_SIMD "Include SIMD extensions, if available for this platform" TRUE)
 boolean_number(WITH_SIMD)
-option(WITH_TURBOJPEG "Include the TurboJPEG API library and associated test programs" TRUE)
+option(WITH_TURBOJPEG "Include the TurboJPEG API library and associated test programs" FALSE)
 boolean_number(WITH_TURBOJPEG)
 option(WITH_FUZZ "Build fuzz targets" FALSE)
 
