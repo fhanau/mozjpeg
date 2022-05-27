@@ -161,7 +161,7 @@ jpeg_crop_scanline(j_decompress_ptr cinfo, JDIMENSION *xoffset,
   jpeg_component_info *compptr;
 #ifdef UPSAMPLE_MERGING_SUPPORTED
   my_master_ptr master = (my_master_ptr)cinfo->master;
-#endif
+#endif /* UPSAMPLE_MERGING_SUPPORTED */
 
   if ((cinfo->global_state != DSTATE_SCANNING &&
        cinfo->global_state != DSTATE_BUFIMAGE) || cinfo->output_scanline != 0)
@@ -331,7 +331,7 @@ read_and_discard_scanlines(j_decompress_ptr cinfo, JDIMENSION num_lines)
   JDIMENSION n;
 #ifdef UPSAMPLE_MERGING_SUPPORTED
   my_master_ptr master = (my_master_ptr)cinfo->master;
-#endif
+#endif /* UPSAMPLE_MERGING_SUPPORTED */
   JSAMPLE dummy_sample[1] = { 0 };
   JSAMPROW dummy_row = dummy_sample;
   JSAMPARRAY scanlines = NULL;
@@ -383,12 +383,14 @@ increment_simple_rowgroup_ctr(j_decompress_ptr cinfo, JDIMENSION rows)
 {
   JDIMENSION rows_left;
   my_main_ptr main_ptr = (my_main_ptr)cinfo->main;
+#ifdef UPSAMPLE_MERGING_SUPPORTED
   my_master_ptr master = (my_master_ptr)cinfo->master;
 
   if (master->using_merged_upsample && cinfo->max_v_samp_factor == 2) {
     read_and_discard_scanlines(cinfo, rows);
     return;
   }
+#endif /* UPSAMPLE_MERGING_SUPPORTED */
 
   /* Increment the counter to the next row group after the skipped rows. */
   main_ptr->rowgroup_ctr += rows / cinfo->max_v_samp_factor;
